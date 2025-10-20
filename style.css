@@ -1,0 +1,326 @@
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #DAE1E7;
+    color: #1f2937;
+    position: relative;
+    overflow-x: hidden;
+}
+#winner-modal {
+    transition: opacity 0.3s ease-in-out;
+    z-index: 60;
+}
+#winner-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.score-change {
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(1.2);
+}
+.title-60s {
+    font-family: 'Knewave', cursive;
+    color: white;
+    text-shadow: 2px 2px 0px #ca8a04, 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.title-70s {
+    font-family: 'Shrikhand', cursive;
+    color: white;
+    text-shadow: 2px 2px 0px #c2410c, 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.title-80s {
+    font-family: 'Monoton', cursive;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.title-90s {
+    font-family: 'Jersey 10', cursive;
+    color: #35393D;
+    text-shadow: 3px 3px 0px #d1d5db;
+}
+@keyframes leader-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(253, 224, 71, 0.6);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 35px 5px rgba(253, 224, 71, 1);
+    }
+}
+.team-card.is-leading {
+    animation: leader-pulse 2.5s infinite ease-in-out;
+    z-index: 20;
+}
+.leading-icon {
+    position: absolute;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    filter: saturate(1.5);
+}
+.team-card.is-leading .leading-icon {
+    opacity: 1;
+    transform: scale(1) rotate(10deg);
+}
+.score-display {
+    cursor: pointer;
+}
+.text-shadow-strong {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+#view-toggle-btn .expand-icon,
+#view-toggle-btn .compress-icon {
+    display: none;
+}
+.view-classic #view-toggle-btn .expand-icon {
+    display: block;
+}
+.view-fullscreen #view-toggle-btn .compress-icon {
+    display: block;
+}
+.view-classic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+.view-classic #classic-header,
+.view-classic #classic-footer {
+    display: block;
+}
+.view-classic #fullscreen-footer {
+    display: none;
+}
+.view-classic #teams-container {
+    max-width: 90rem;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2.5rem;
+}
+@media (min-width: 768px) {
+    .view-classic #teams-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 1024px) {
+    .view-classic #teams-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+.view-classic .team-card {
+    border-radius: 1.5rem;
+    box-shadow: 0 15px 20px -5px rgb(0 0 0 / 0.1), 0 6px 8px -6px rgb(0 0 0 / 0.1);
+    z-index: 10;
+}
+.view-classic .main-content-wrapper {
+    padding: 3rem;
+}
+.view-classic .leading-icon {
+    top: -30px;
+    right: -20px;
+    font-size: 72px;
+}
+.view-classic .title-container {
+    height: 9rem;
+}
+.view-classic .title-60s {
+    font-size: 4.7rem;
+    line-height: 1;
+}
+.view-classic .title-70s {
+    font-size: 5.5rem;
+    line-height: 0.8;
+}
+.view-classic .title-80s {
+    font-size: 4.5rem;
+    line-height: 1;
+}
+.view-classic .title-90s {
+    font-size: 7.2rem;
+    line-height: 0.6;
+}
+.view-classic .score-display {
+    font-size: 12rem;
+    line-height: 0.9;
+    margin: 1.5rem 0;
+}
+.view-classic .subtitle {
+    font-size: 1.25rem;
+}
+.view-classic .score-btn {
+    height: 5rem;
+    font-size: 2.25rem;
+}
+.view-classic .score-btn:first-child {
+    border-bottom-left-radius: 1.5rem;
+}
+.view-classic .score-btn:last-child {
+    border-bottom-right-radius: 1.5rem;
+}
+.view-fullscreen {
+    overflow: hidden;
+}
+.view-fullscreen #classic-header,
+.view-fullscreen #classic-footer {
+    display: none;
+}
+.view-fullscreen #fullscreen-footer {
+    display: block;
+}
+.view-fullscreen #teams-container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+@media (min-width: 768px) {
+    .view-fullscreen #teams-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+}
+.view-fullscreen .team-card {
+    border-radius: 0;
+    z-index: 10;
+}
+.view-fullscreen .main-content-wrapper {
+    padding: 1rem;
+}
+.view-fullscreen .leading-icon {
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 6rem;
+}
+.view-fullscreen .title-60s {
+     font-size: 5.3rem;
+     line-height: 1;
+}
+.view-fullscreen .title-70s {
+    font-size: 6.2rem;
+    line-height: 0.8;
+}
+.view-fullscreen .title-80s {
+    font-size: 5rem;
+    line-height: 1;
+}
+.view-fullscreen .title-90s {
+    font-size: 8.5rem;
+    line-height: 0.6;
+}
+.view-fullscreen .score-display {
+    font-size: 20vh;
+    line-height: 0.9;
+}
+.view-fullscreen .subtitle {
+    font-size: 1.5rem;
+}
+.view-fullscreen .score-btn {
+    height: 5rem;
+    font-size: 2.25rem;
+}
+#balloons-container-back, #balloons-container-front {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+#balloons-container-back {
+    z-index: 1;
+}
+#balloons-container-front {
+    z-index: 25;
+}
+.view-fullscreen #balloons-container-back,
+.view-fullscreen #balloons-container-front {
+    display: none;
+}
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+    border-radius: inherit;
+    z-index: 5;
+    mix-blend-mode: overlay;
+    opacity: 0.8;
+}
+.view-fullscreen .card-overlay {
+    display: none;
+}
+.balloon {
+    position: absolute;
+    background-color: #ffcc00;
+    border-radius: 70% 70% 80% 80% / 80% 80% 70% 70%;
+    opacity: 0;
+    transform: translateY(100vh);
+    animation: ascend linear infinite;
+    animation-fill-mode: backwards;
+    filter: brightness(1.1);
+    transform-origin: bottom center;
+}
+.balloon::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 70px;
+    background-color: rgba(0, 0, 0, 0.3);
+    bottom: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.balloon::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: inherit;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    border-radius: 50% 50% 0 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+@keyframes ascend {
+    0% {
+        transform: translateY(100vh) scale(0.6);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100%) scale(1.2);
+        opacity: 0;
+    }
+}
+.balloon-1 { background-color: #FDE047; width: 75px; height: 100px; animation-duration: 22s; animation-delay: 0s; z-index: 2; }
+.balloon-2 { background-color: #10B981; width: 88px; height: 118px; animation-duration: 25s; animation-delay: 1.5s; z-index: 3; }
+.balloon-3 { background-color: #3B82F6; width: 70px; height: 95px; animation-duration: 19s; animation-delay: 3s; z-index: 2; }
+.balloon-4 { background-color: #35393D; width: 82px; height: 110px; animation-duration: 26s; animation-delay: 4.5s; z-index: 3; }
+.balloon-5 { background-color: #f7931e; width: 94px; height: 125px; animation-duration: 24s; animation-delay: 6s; z-index: 2; }
+.balloon-6 { background-color: #ef4444; width: 62px; height: 82px; animation-duration: 18s; animation-delay: 7.5s; z-index: 3; }
+.balloon-7 { background-color: #8B5CF6; width: 100px; height: 135px; animation-duration: 28s; animation-delay: 9s; z-index: 2; }
+.balloon-8 { background-color: #6EE7B7; width: 75px; height: 105px; animation-duration: 23s; animation-delay: 10.5s; z-index: 3; }
+.balloon-9 { background-color: #F87171; width: 88px; height: 118px; animation-duration: 25s; animation-delay: 12s; z-index: 2; }
+.balloon-10 { background-color: #FACC15; width: 75px; height: 100px; animation-duration: 21s; animation-delay: 13.5s; z-index: 3; }
+.balloon-11 { background-color: #A78BFA; width: 80px; height: 105px; animation-duration: 27s; animation-delay: 1s; z-index: 2; }
+.balloon-12 { background-color: #22D3EE; width: 70px; height: 95px; animation-duration: 20s; animation-delay: 4s; z-index: 3; }
+.balloon-13 { background-color: #FB923C; width: 90px; height: 120px; animation-duration: 24s; animation-delay: 8s; z-index: 2; }
+.balloon-14 { background-color: #F472B6; width: 78px; height: 100px; animation-duration: 22s; animation-delay: 11s; z-index: 3; }
+.balloon-15 { background-color: #4ADE80; width: 65px; height: 85px; animation-duration: 18s; animation-delay: 14s; z-index: 2; }
