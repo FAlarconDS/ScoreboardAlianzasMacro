@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Knewave&family=Jersey+10&family=Monoton&family=Shrikhand&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="stylesheet" href="style.css?v=1.0">
 </head>
 <body class="text-gray-800">
     <div id="balloons-container-back">
@@ -116,6 +116,12 @@
             }];
             let teams = [];
             let currentView = 'classic';
+            
+            // --- NUEVA FUNCIÓN ---
+            function formatScore(score) {
+                return score.toLocaleString('es-CL');
+            }
+
             function loadState() {
                 const savedState = localStorage.getItem('scoreboardState');
                 teams = savedState ? JSON.parse(savedState) : initialTeams.map(t => ({ ...t
@@ -137,16 +143,16 @@
                 teams.forEach(team => {
                     const teamCard = `
                                 <div id="card-${team.id}" class="team-card ${team.bgColor} flex flex-col justify-between transition-transform duration-300 relative">
-                                   <div class="card-overlay"></div>
-                                   <div class="main-content-wrapper flex flex-col items-center justify-around flex-grow relative z-10">
+                                    <div class="card-overlay"></div>
+                                    <div class="main-content-wrapper flex flex-col items-center justify-around flex-grow relative z-10">
                                         <div class="leading-icon"></div>
                                         <div class="text-center z-10 title-container">
                                             <h2 class="${team.titleClass}">${team.name}</h2>
                                             <p class="subtitle font-semibold ${team.textColor} opacity-80 mt-2 ${team.id !== '90s' ? 'text-shadow-strong' : ''}">${team.subtitle}</p>
                                         </div>
-                                        <div class="score-display font-black ${team.textColor} z-10" id="score-${team.id}" data-team-id="${team.id}">${team.score}</div>
-                                   </div>
-                                    <div class="flex w-full relative z-10">
+                                        <div class="score-display font-black ${team.textColor} z-10" id="score-${team.id}" data-team-id="${team.id}">${formatScore(team.score)}</div>
+                                        </div>
+                                     <div class="flex w-full relative z-10">
                                         <button data-team-id="${team.id}" data-action="subtract" class="score-btn w-1/2 font-bold bg-black bg-opacity-10 hover:bg-opacity-20 ${team.textColor} flex items-center justify-center transition-colors border-r border-white/10">-</button>
                                         <button data-team-id="${team.id}" data-action="add" class="score-btn w-1/2 font-bold bg-black bg-opacity-10 hover:bg-opacity-20 ${team.textColor} flex items-center justify-center transition-colors">+</button>
                                     </div>
@@ -158,7 +164,7 @@
             function updateScoreDisplay(teamId, newScore) {
                 const scoreElement = document.getElementById(`score-${teamId}`);
                 if (scoreElement) {
-                    scoreElement.textContent = newScore;
+                    scoreElement.textContent = formatScore(newScore);
                     scoreElement.classList.add('score-change');
                     setTimeout(() => scoreElement.classList.remove('score-change'), 200);
                 }
@@ -200,7 +206,7 @@
                 if (!team) return;
                 const newScoreRaw = prompt(`Ingresa el nuevo puntaje para ${team.subtitle}:`, team.score);
                 if (newScoreRaw !== null) {
-                    const newScore = parseInt(newScoreRaw, 10);
+                    const newScore = parseInt(newScoreRaw.replace(/\./g, ''), 10); // Quita los puntos para el parseo
                     if (!isNaN(newScore) && newScore >= 0) {
                         team.score = newScore;
                         updateScoreDisplay(teamId, newScore);
@@ -220,7 +226,7 @@
                     const winnerNameEl = document.getElementById('winner-name');
                     const winnerScoreEl = document.getElementById('winner-score');
                     winnerNameEl.innerHTML = winners.map(w => w.subtitle).join(' & ');
-                    winnerScoreEl.textContent = `Con un puntaje final de ${maxScore} pts`;
+                    winnerScoreEl.textContent = `Con un puntaje final de ${formatScore(maxScore)} pts`;
                     let bgColor = winners.length === 1 ? winners[0].bgColor : 'bg-gray-800';
                     let textColor = 'text-white';
                     
@@ -303,4 +309,3 @@
     </script>
 </body>
 </html>
-
